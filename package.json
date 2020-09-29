@@ -1,0 +1,24 @@
+{
+  "name": "acm-project",
+  "version": "1.0.0",
+  "description": "ACM OleMiss Website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "env-cmd -f ./server/config/dev.env nodemon ./server/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "bcrypt": "^5.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.7",
+    "validator": "^13.1.17"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "nodemon": "^2.0.4"
+  }
+}
