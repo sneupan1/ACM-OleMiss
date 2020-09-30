@@ -16,18 +16,24 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowerCase: true,
       validate(value) {
+        const domain = value.split("@")[1];
         if (!validator.isEmail(value)) {
           throw new Error("Email is invalid");
+        } else if (domain !== "go.olemiss.edu" && domain !== "olemiss.edu") {
+          throw new Error("You can only use your OleMiss email to register.");
         }
       },
     },
-    officer: {
-      type: Boolean,
-      default: false,
-    },
-    advisor: {
-      type: Boolean,
-      default: false,
+    role: {
+      type: String,
+      trim: true,
+      lowerCase: true,
+      default: "basic",
+      validate(value) {
+        if (value !== "basic" && value !== "officer" && value !== "admin") {
+          throw new Error("Invalid Role");
+        }
+      },
     },
     password: {
       type: String,
