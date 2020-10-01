@@ -35,6 +35,27 @@ router.get("/all", auth, async (req, res) => {
   }
 });
 
+//  @route      PATCH api/profile/me
+//  @desc       UPDATE CURRENT PROFILE
+//  @access     Private
+router.patch("/me", auth, async (req, res) => {
+  try {
+    if (req.body.dues) {
+      delete req.body.dues;
+    }
+    const profile = await Profile.findOneAndUpdate(
+      { user: req.user._id },
+      req.body,
+      {
+        new: true,
+      }
+    );
+    res.send(profile);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 //  @route      Delete api/profile/me
 //  @desc       Register basic user profile
 //  @access     Private

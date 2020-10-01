@@ -4,6 +4,8 @@ const OfficerApplication = require("../models/officerApplication");
 const auth = require("../middleware/auth");
 const adminAuth = require("../middleware/adminAuth");
 const User = require("../models/user");
+const officerAuth = require("../middleware/officerAuth");
+const Profile = require("../models/profile");
 
 //  @route      POST api/user/officer
 //  @desc       Submit officer application request to admin for approval
@@ -87,6 +89,22 @@ router.delete("/officer/application/:id", adminAuth, async (req, res) => {
     }
     await application.delete();
     res.send(application);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+router.patch("/officer/dues/:profileId", officerAuth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      _id: req.params.profileId,
+    }).populate("user", "role");
+    if (profile.user.role !== "basic") {
+      throw new Error("Cannot update");
+    }
+    profile.dues = req.body.dues;
+    await profile.save();
+    res.send(profile);
   } catch (err) {
     res.status(500).send(err.message);
   }
