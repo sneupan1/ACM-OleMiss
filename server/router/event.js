@@ -94,6 +94,22 @@ router.patch("/:eventId/register", auth, async (req, res) => {
   }
 });
 
+//  @route      PATCH api/event/:id/user/:id
+//  @desc       remove user from event
+//  @access     private, must be an officer or admin
+router.patch("/:eventId/user/:userId", officerAuth, async (req, res) => {
+  try {
+    const event = await Event.findOne({ _id: req.params.eventId });
+    event.participants = event.participants.filter(
+      (participant) => participant.user.toString() !== req.params.userId
+    );
+    await event.save();
+    res.send([{ message: "Removed from event" }]);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 //  @route      PATCH api/event/:id/unregister
 //  @desc       unregister from event
 //  @access     private
