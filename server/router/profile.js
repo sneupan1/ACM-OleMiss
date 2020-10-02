@@ -57,7 +57,7 @@ router.patch("/me", auth, async (req, res) => {
 });
 
 //  @route      Delete api/profile/me
-//  @desc       Register basic user profile
+//  @desc       delete current user profile
 //  @access     Private
 router.delete("/me", auth, async (req, res) => {
   try {
@@ -70,7 +70,7 @@ router.delete("/me", auth, async (req, res) => {
 });
 
 //  @route      Delete api/profile/:id
-//  @desc       Register basic user profile
+//  @desc       delete profile and account by ID
 //  @access     Private
 router.delete("/:id", officerAuth, async (req, res) => {
   try {
@@ -87,7 +87,7 @@ router.delete("/:id", officerAuth, async (req, res) => {
     }
     await User.deleteOne({ _id: profile.user._id });
     await profile.delete();
-    res.send([{ message: "Accont Removed Successfully" }]);
+    res.send([{ message: "Account Removed Successfully" }]);
   } catch (err) {
     res.status(500).send(err.message);
   }

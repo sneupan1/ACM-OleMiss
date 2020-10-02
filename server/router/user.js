@@ -44,4 +44,33 @@ router.post("/", async (req, res) => {
   }
 });
 
+//  @route      POST api/user/login
+//  @desc       login user
+//  @access     Public
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findByCredentials(email, password);
+    const token = await user.generateAuthToken();
+    res.send({ user, token });
+  } catch (err) {
+    res.status(500).send([{ message: err.message }]);
+  }
+});
+
+//  @route      POST api/user/logout
+//  @desc       logout user
+//  @access     private
+router.post("/logout", auth, async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter(
+      (token) => token.token !== req.token
+    );
+    await req.user.save();
+    res.send([{ message: "Logged Out" }]);
+  } catch (err) {
+    res.send(500).send(err.message);
+  }
+});
+
 module.exports = router;

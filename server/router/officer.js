@@ -94,6 +94,9 @@ router.delete("/officer/application/:id", adminAuth, async (req, res) => {
   }
 });
 
+//  @route      PATCH api/user/officer/dues/:profileId
+//  @desc       update existing dues of users
+//  @access     private, needs to be admin or officer
 router.patch("/officer/dues/:profileId", officerAuth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
