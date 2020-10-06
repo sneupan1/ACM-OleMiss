@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const sharp = require("sharp");
 const Event = require("../models/event");
 const auth = require("../middleware/auth");
 const officerAuth = require("../middleware/officerAuth");
@@ -135,6 +137,81 @@ router.delete("/:eventId", officerAuth, async (req, res) => {
     res.send([{ message: "Event has been removed" }]);
   } catch (err) {
     res.status(500).send(err.message);
+  }
+});
+
+//trying file upload
+const upload = multer({
+  limits: {
+    fileSize: 2000000,
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error("Please upload jpeg, jpg or png file only"));
+    }
+    cb(undefined, true);
+  },
+});
+
+//  @route      POST api/event/:id/flyer
+//  @desc       add flyer to event
+//  @access     Private
+router.post(
+  "/:id/flyer",
+  officerAuth,
+  upload.single("flyer"),
+  async (req, res) => {
+    const event = await Event.findOne({
+      _id: req.params.id,
+    }).populate("participants.user", ["name", "email"]);
+    const buffer = await sharp(req.file.buffer)
+      .resize({ width: 500, height: 500 })
+      .png()
+      .toBuffer();
+    event.flyer = buffer;
+    await event.save();
+    res.send(event);
+  },
+  (err, req, res, next) => {
+    res.status(400).send([{ message: err.message }]);
+  }
+);
+
+//  @route      DELETE api/event/:id/flyer
+//  @desc       DELETE flyer from event by id
+//  @access     Private
+router.delete("/:id/flyer", officerAuth, async (req, res) => {
+  try {
+    const event = await Event.findOne({
+      _id: req.params.id,
+    }).populate("participants.user", ["name", "email"]);
+    if (!event) {
+      console.log("event is empty");
+    }
+    event.flyer = undefined;
+    await event.save();
+    res.send(event);
+  } catch (err) {
+    res.status(400).send([{ message: err.message }]);
+  }
+});
+
+//  @route      GET api/event/:id/flyer
+//  @desc       FETCH flyer using event :ID
+//  @access     public
+router.get("/:id/flyer", async (req, res) => {
+  try {
+    const event = await Event.findOne({
+      _id: req.params.id,
+    }).populate("participants.user", ["name", "email"]);
+
+    if (!event.flyer) {
+      throw new Error("Flyer not found");
+    }
+    res.set("Content-Type", "image/png");
+    res.send(event.flyer);
+  } catch (err) {
+    res.status(400).send([{ message: err.message }]);
   }
 });
 

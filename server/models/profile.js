@@ -23,11 +23,23 @@ const profileSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    avatar: {
+      type: Buffer,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+profileSchema.methods.toJSON = function () {
+  const profile = this;
+  const profileObject = profile.toObject();
+
+  delete profileObject.avatar;
+
+  return profileObject;
+};
 
 const Profile = mongoose.model("Profile", profileSchema);
 

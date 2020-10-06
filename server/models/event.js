@@ -24,6 +24,9 @@ const eventSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  flyer: {
+    type: Buffer,
+  },
   participants: [
     {
       user: {
@@ -33,6 +36,15 @@ const eventSchema = new mongoose.Schema({
     },
   ],
 });
+
+eventSchema.methods.toJSON = function () {
+  const event = this;
+  const eventObject = event.toObject();
+
+  delete eventObject.flyer;
+
+  return eventObject;
+};
 
 const Event = mongoose.model("Event", eventSchema);
 

@@ -12,6 +12,9 @@ app.use("/api/user", require("./router/officer"));
 app.use("/api/user", require("./router/admin"));
 app.use("/api/profile", require("./router/profile"));
 app.use("/api/event", require("./router/event"));
+app.use((req, res) => {
+  res.status(404).send([{ message: "page not found" }]);
+});
 
 app.listen(PORT, () => {
   console.log("Server is running at port ", PORT);

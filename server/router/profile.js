@@ -4,6 +4,8 @@ const Profile = require("../models/profile");
 const User = require("../models/user");
 const auth = require("../middleware/auth");
 const officerAuth = require("../middleware/officerAuth");
+const multer = require("multer");
+const sharp = require("sharp");
 
 //  @route      POST api/profile/me
 //  @desc       Register basic user profile
@@ -90,6 +92,78 @@ router.delete("/:id", officerAuth, async (req, res) => {
     res.send([{ message: "Account Removed Successfully" }]);
   } catch (err) {
     res.status(500).send(err.message);
+  }
+});
+
+//trying file upload
+const upload = multer({
+  limits: {
+    fileSize: 2000000,
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error("Please upload jpeg, jpg or png file only"));
+    }
+    cb(undefined, true);
+  },
+});
+
+//  @route      POST api/profile/me/avatar
+//  @desc       add avatar to current profile
+//  @access     Private
+router.post(
+  "/me/avatar",
+  auth,
+  upload.single("avatar"),
+  async (req, res) => {
+    const profile = await Profile.findOne({
+      user: req.user._id,
+    }).populate("user", ["name", "email", "role"]);
+    const buffer = await sharp(req.file.buffer)
+      .resize({ width: 250, height: 250 })
+      .png()
+      .toBuffer();
+    profile.avatar = buffer;
+    await profile.save();
+    res.send(profile);
+  },
+  (err, req, res, next) => {
+    res.status(400).send([{ message: err.message }]);
+  }
+);
+
+//  @route      DELETE api/profile/me/avatar
+//  @desc       DELETE avatar from current profile
+//  @access     Private
+router.delete("/me/avatar", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.user._id,
+    }).populate("user", ["name", "email", "role"]);
+    profile.avatar = undefined;
+    await profile.save();
+    res.send(profile);
+  } catch (err) {
+    res.status(400).send([{ message: err.message }]);
+  }
+});
+
+//  @route      GET api/profile/:id/avatar
+//  @desc       FETCH avatar using profile :ID
+//  @access     public
+router.get("/:id/avatar", async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      _id: req.params.id,
+    }).populate("user", ["name", "email", "role"]);
+
+    if (!profile.avatar) {
+      throw new Error("Avatar not found");
+    }
+    res.set("Content-Type", "image/png");
+    res.send(profile.avatar);
+  } catch (err) {
+    res.status(400).send([{ message: err.message }]);
   }
 });
 
