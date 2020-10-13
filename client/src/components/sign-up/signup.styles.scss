@@ -1,0 +1,15 @@
+.signup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 550px;
+  text-align: center;
+
+  .title {
+    margin: 20px 0;
+  }
+
+  button {
+    width: 250px;
+  }
+}

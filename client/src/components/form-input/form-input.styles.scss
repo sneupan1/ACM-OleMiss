@@ -7,11 +7,43 @@
     background-color: white;
     color: grey;
     font-size: 18px;
-    padding: 10px 10px 10px 5px;
+    padding: 8px 10px 8px 5px;
     display: block;
+    width: 100%;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid grey;
 
     &:focus {
-      border-bottom: 1px;
+      outline: none;
+      border-bottom: 1px solid blue;
+    }
+
+    &:focus ~ .form-input-label {
+      top: -16px;
+      font-size: 14px;
+      color: black;
+    }
+  }
+
+  input[type="password"] {
+    letter-spacing: 0.3em;
+  }
+
+  .form-input-label {
+    color: grey;
+    font-size: 16px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 13px;
+    transition: 300ms ease all;
+
+    &.shrink {
+      top: -16px;
+      font-size: 14px;
+      color: black;
     }
   }
 }
