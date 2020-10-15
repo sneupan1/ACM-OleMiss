@@ -7,17 +7,18 @@ import { FaUser } from "react-icons/fa";
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import { setAlert } from "../../redux/alert/alert.actions";
-import { signupUser } from "../../redux/user/user.actions";
+import { signupAdmin } from "../../redux/user/user.actions";
 
-const Signup = ({ setAlert, signupUser, token }) => {
+const SignupAdmin = ({ setAlert, signupAdmin, token }) => {
   const [userCredentials, setUserCredentials] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    key: "",
   });
 
-  const { name, email, password, confirmPassword } = userCredentials;
+  const { name, email, password, confirmPassword, key } = userCredentials;
 
   if (token !== null) {
     return <Redirect to="/" />;
@@ -28,7 +29,7 @@ const Signup = ({ setAlert, signupUser, token }) => {
     if (password !== confirmPassword) {
       setAlert("Password does not match", "danger");
     } else {
-      signupUser(name, email, password);
+      signupAdmin(name, email, password, key);
     }
   };
   const handleChange = (event) => {
@@ -40,9 +41,9 @@ const Signup = ({ setAlert, signupUser, token }) => {
   return (
     <div className="signup">
       <h3 className="title">
-        <FaUser /> I do not have an account
+        <FaUser /> I do not have an admin account
       </h3>
-      <span>Sign up with your email and password</span>
+      <span>Sign up with your special key</span>
       <form className="signup-form" onSubmit={onSubmit}>
         <FormInput
           type="text"
@@ -76,6 +77,14 @@ const Signup = ({ setAlert, signupUser, token }) => {
           label="Confirm Password"
           required
         />
+        <FormInput
+          type="password"
+          name="key"
+          value={key}
+          handleChange={handleChange}
+          label="Special Key"
+          required
+        />
         <CustomButton type="submit">Sign Up</CustomButton>
       </form>
     </div>
@@ -85,4 +94,4 @@ const Signup = ({ setAlert, signupUser, token }) => {
 const mapStateToProps = (state) => ({
   token: state.user.token,
 });
-export default connect(mapStateToProps, { setAlert, signupUser })(Signup);
+export default connect(mapStateToProps, { setAlert, signupAdmin })(SignupAdmin);

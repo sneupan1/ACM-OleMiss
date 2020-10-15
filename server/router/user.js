@@ -44,6 +44,18 @@ router.post("/", async (req, res) => {
   }
 });
 
+//  @route      GET api/user/me
+//  @desc       Get current user
+//  @access     Private
+router.get("/me", auth, async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.user._id });
+    res.send(user);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 //  @route      POST api/user/login
 //  @desc       login user
 //  @access     Public
