@@ -11,6 +11,14 @@ const profileSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    graduationDate: {
+      type: Date,
+      default: null,
+    },
+    major: {
+      type: String,
+      default: null,
+    },
     bio: {
       type: String,
       default: null,
@@ -36,7 +44,11 @@ profileSchema.methods.toJSON = function () {
   const profile = this;
   const profileObject = profile.toObject();
 
-  delete profileObject.avatar;
+  if (profileObject.avatar) {
+    profileObject.avatar = true;
+  } else {
+    profileObject.avatar = false;
+  }
 
   return profileObject;
 };
