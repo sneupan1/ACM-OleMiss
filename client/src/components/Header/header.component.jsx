@@ -22,7 +22,7 @@ const Header = ({ logoutUser }) => (
         <Link to="/login">Login</Link>
       </div>
       <div className="header-item">
-        <a href="#!" onClick={() => logoutUser()}>
+        <a href="/" onClick={() => logoutUser()}>
           Logout
         </a>
       </div>

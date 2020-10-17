@@ -51,7 +51,7 @@ router.patch("/me", auth, async (req, res) => {
       {
         new: true,
       }
-    );
+    ).populate("user", ["name", "email", "role"]);
     res.send(profile);
   } catch (err) {
     res.status(500).send(err.message);

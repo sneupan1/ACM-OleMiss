@@ -9,7 +9,7 @@ const profileSchema = new mongoose.Schema(
     },
     classification: {
       type: String,
-      default: null,
+      default: "",
     },
     graduationDate: {
       type: Date,

@@ -7,7 +7,7 @@ import alertReducer from "./alert/alert.reducer";
 import userReducer from "./user/user.reducer";
 import profileReducer from "./profile/profile.reducer";
 
-const saveSubsetFilter = createFilter("user", ["token"]);
+const saveSubsetFilter = createFilter("user", ["token", "role"]);
 
 const persistConfig = {
   key: "root",

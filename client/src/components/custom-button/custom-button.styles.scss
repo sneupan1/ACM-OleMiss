@@ -13,6 +13,13 @@
   font-weight: 600;
   cursor: pointer;
 
+  ~ .danger {
+    background-color: #dc3545;
+
+    &:hover {
+      background-color: #d02536;
+    }
+  }
   &:hover {
     background-color: #217be8;
   }
