@@ -6,21 +6,36 @@ import "./profile.styles.scss";
 import Moment from "react-moment";
 import Image from "react-bootstrap/Image";
 import { BsInfoCircle } from "react-icons/bs";
-import { FaUserAlt } from "react-icons/fa";
+import { FaUserAlt, FaEdit } from "react-icons/fa";
 import CustomModal from "../custom-modal/custom-modal.component";
+import UploadModal from "../upload-modal/uploadModal.component";
 import Button from "react-bootstrap/Button";
+import Badge from "react-bootstrap/Badge";
 
-import { deleteProfile } from "../../redux/profile/profile.actions";
+import {
+  deleteProfile,
+  uploadProfilePic,
+} from "../../redux/profile/profile.actions";
 
-const Profile = ({ profile, user, history, deleteProfile }) => {
+const Profile = ({
+  passItem: profile,
+  user,
+  history,
+  deleteProfile,
+  uploadProfilePic,
+}) => {
   const toUpperCaseFilter = (d) => {
     return d.toUpperCase();
   };
-
+  //modal for delete profile
   const [showModal, setShowModal] = useState(false);
-
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+
+  //modal for edit profile picture
+  const [showDpModal, setShowDpModal] = useState(false);
+  const handleDpClose = () => setShowDpModal(false);
+  const handleDpShow = () => setShowDpModal(true);
 
   const handleDeleteAction = () => {
     deleteProfile(history);
@@ -34,6 +49,13 @@ const Profile = ({ profile, user, history, deleteProfile }) => {
       >
         Are you sure you want to do this?
       </CustomModal>
+      <UploadModal
+        showModal={showDpModal}
+        handleClose={handleDpClose}
+        uploadIndex="avatar"
+        handleSubmit={uploadProfilePic}
+        history={history}
+      />
       <div className="profileContainer">
         <div className="profileComponent">
           <div className="profileInfo-container">
@@ -47,6 +69,11 @@ const Profile = ({ profile, user, history, deleteProfile }) => {
               ) : (
                 <div className="emptyPic-icon-container">
                   <FaUserAlt className="empty-icon" />
+                </div>
+              )}
+              {profile.user._id === user._id && (
+                <div className="profilePic-editicon">
+                  <FaEdit onClick={handleDpShow} />
                 </div>
               )}
             </div>
@@ -74,6 +101,15 @@ const Profile = ({ profile, user, history, deleteProfile }) => {
                   GRADUATION
                 </span>
               )}
+              <div className="role-badge">
+                <h5>
+                  <Badge pill variant="secondary">
+                    {profile.user.role === "basic"
+                      ? "MEMBER"
+                      : profile.user.role.toUpperCase()}
+                  </Badge>
+                </h5>
+              </div>
               <h4 className="profile-basic-tag">
                 <BsInfoCircle className="basic-info-icon" /> Basic Info
               </h4>
@@ -133,4 +169,6 @@ const mapStateToProps = (state) => ({
   user: state.user.user,
 });
 
-export default connect(mapStateToProps, { deleteProfile })(Profile);
+export default connect(mapStateToProps, { deleteProfile, uploadProfilePic })(
+  Profile
+);

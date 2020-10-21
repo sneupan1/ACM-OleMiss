@@ -71,6 +71,20 @@ router.delete("/me", auth, async (req, res) => {
   }
 });
 
+//  @route      GET api/profile/:id
+//  @desc       get profile by ID
+//  @access     Private
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      _id: req.params.id,
+    }).populate("user", ["name", "email", "role"]);
+    res.send(profile);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 //  @route      Delete api/profile/:id
 //  @desc       delete profile and account by ID
 //  @access     Private

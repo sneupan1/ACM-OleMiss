@@ -47,6 +47,27 @@
         display: flex;
         flex-direction: column;
 
+        &:hover {
+          .profilePic-editicon {
+            display: inline-block;
+          }
+        }
+
+        .profilePic-editicon {
+          position: absolute;
+          display: none;
+          align-self: flex-end;
+          margin-right: 15px;
+          margin-top: 10px;
+          color: #898e96;
+          width: 20px;
+          height: 20px;
+
+          &:hover {
+            color: #707172;
+          }
+        }
+
         .emptyPic-icon-container {
           height: 250px;
           width: 250px;
@@ -75,6 +96,12 @@
           font-weight: bold;
         }
 
+        .role-badge {
+          span {
+            color: white;
+          }
+        }
+
         #dashBackground {
           content: "";
           margin: 0 10px;
@@ -86,7 +113,7 @@
 
         .profile-basic-tag {
           font-size: large;
-          margin-top: 20px;
+          margin-top: 7px;
           color: #6597b5;
           font-weight: bold;
           padding-bottom: 5px;

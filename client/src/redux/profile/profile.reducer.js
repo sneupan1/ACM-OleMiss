@@ -3,8 +3,13 @@ import { ProfileActionTypes } from "./profile.types";
 const {
   FETCH_PROFILE_START,
   FETCH_PROFILE_SUCCESS,
+  FETCH_PROFILE_ID_START,
+  FETCH_PROFILE_ID_SUCCESS,
+  FETCH_ALL_PROFILES_START,
+  FETCH_ALL_PROFILES_SUCCESS,
   UPDATE_PROFILE_START,
   UPDATE_PROFILE_COMPLETE,
+  SEND_OFFICER_APPLICATION,
   ACCOUNT_DELETE,
   PROFILE_ERROR,
 } = ProfileActionTypes;
@@ -12,7 +17,7 @@ const {
 const INITIAL_STATE = {
   profile: null,
   profileById: null,
-  profiles: [],
+  allProfiles: [],
   error: {},
   isFetching: true,
 };
@@ -22,6 +27,8 @@ export default function (state = INITIAL_STATE, action) {
 
   switch (type) {
     case FETCH_PROFILE_START:
+    case FETCH_PROFILE_ID_START:
+    case FETCH_ALL_PROFILES_START:
     case UPDATE_PROFILE_START:
       return {
         ...state,
@@ -31,10 +38,21 @@ export default function (state = INITIAL_STATE, action) {
     case UPDATE_PROFILE_COMPLETE:
       return {
         ...state,
-        isFetching: false,
         profile: payload,
+        isFetching: false,
       };
-
+    case FETCH_ALL_PROFILES_SUCCESS:
+      return {
+        ...state,
+        allProfiles: payload,
+        isFetching: false,
+      };
+    case FETCH_PROFILE_ID_SUCCESS:
+      return {
+        ...state,
+        profileById: payload,
+        isFetching: false,
+      };
     case PROFILE_ERROR:
     case ACCOUNT_DELETE:
       return {
@@ -43,6 +61,13 @@ export default function (state = INITIAL_STATE, action) {
         isFetching: false,
         profile: null,
         profileById: null,
+        allProfiles: null,
+      };
+    case "clearfetch":
+      return {
+        ...state,
+        allProfiles: null,
+        isFetching: true,
       };
     default:
       return state;

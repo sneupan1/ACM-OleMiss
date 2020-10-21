@@ -6,6 +6,7 @@ import createFilter from "redux-persist-transform-filter";
 import alertReducer from "./alert/alert.reducer";
 import userReducer from "./user/user.reducer";
 import profileReducer from "./profile/profile.reducer";
+import applicationReducer from "./application/application.reducer";
 
 const saveSubsetFilter = createFilter("user", ["token", "role"]);
 
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   alert: alertReducer,
   profile: profileReducer,
+  application: applicationReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

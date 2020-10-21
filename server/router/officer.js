@@ -21,7 +21,11 @@ router.post("/officer", auth, async (req, res) => {
           .status(400)
           .send([{ message: "An approval request has already been sent" }]);
       }
-      officerApplication = new OfficerApplication({ user: req.user._id });
+      var profile = await Profile.findOne({ user: req.user._id });
+      officerApplication = new OfficerApplication({
+        profile: profile._id,
+        user: req.user._id,
+      });
       officerApplication.save();
       res.status(201).send(officerApplication);
     } else {
@@ -41,10 +45,9 @@ router.post("/officer", auth, async (req, res) => {
 //  @access     private, needs to be admin
 router.get("/officer/applications", adminAuth, async (req, res) => {
   try {
-    const applications = await OfficerApplication.find().populate("user", [
-      "name",
-      "email",
-    ]);
+    const applications = await OfficerApplication.find()
+      .populate("user", ["name", "email"])
+      .populate("profile", ["avatar"]);
     if (!applications) {
       return res.status(400).send([
         {

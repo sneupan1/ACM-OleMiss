@@ -6,6 +6,11 @@ const officerApplicationSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  profile: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Profile",
+    required: true,
+  },
 });
 
 const OfficerApplication = mongoose.model(

@@ -8,7 +8,7 @@ import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import { updateProfile } from "../../redux/profile/profile.actions";
 
-const EditProfile = ({ profile, history, updateProfile }) => {
+const EditProfile = ({ passItem: profile, history, updateProfile }) => {
   const [profileForm, setProfileForm] = useState({
     classification: profile.classification,
     graduationDate: profile.graduationDate,
