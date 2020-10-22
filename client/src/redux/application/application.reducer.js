@@ -3,12 +3,15 @@ import { applicationActionTypes } from "./application.types";
 const {
   FETCH_ALL_APPLICATIONS_START,
   FETCH_ALL_APPLICATIONS_SUCCESS,
+  APPROVE_APPLICATION,
+  REJECT_APPLICATION,
   NO_APPLICATIONS,
 } = applicationActionTypes;
 
 const INITIAL_STATE = {
   applications: null,
   isFetching: true,
+  errors: {},
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -20,12 +23,28 @@ export default function (state = INITIAL_STATE, action) {
         ...state,
         isFetching: true,
       };
-    case NO_APPLICATIONS:
+
     case FETCH_ALL_APPLICATIONS_SUCCESS:
       return {
         ...state,
         applications: payload,
         isFetching: false,
+      };
+    case REJECT_APPLICATION:
+    case APPROVE_APPLICATION:
+      return {
+        ...state,
+        applications: state.applications.filter(
+          (application) => application._id !== payload
+        ),
+        isFetching: false,
+      };
+    case NO_APPLICATIONS:
+      return {
+        ...state,
+        errors: payload,
+        isFetching: null,
+        applications: null,
       };
     default:
       return state;

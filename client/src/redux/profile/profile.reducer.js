@@ -57,7 +57,7 @@ export default function (state = INITIAL_STATE, action) {
     case ACCOUNT_DELETE:
       return {
         ...state,
-        err: payload,
+        error: payload,
         isFetching: false,
         profile: null,
         profileById: null,

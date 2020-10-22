@@ -1,0 +1,14 @@
+.applicationPage-titleBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 700px;
+  margin-bottom: 20px;
+  padding: 0 2px 0 50px;
+
+  #applicationPage-title {
+    font-size: 30px;
+    font-weight: bold;
+  }
+}

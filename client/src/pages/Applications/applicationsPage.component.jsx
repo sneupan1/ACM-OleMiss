@@ -4,15 +4,15 @@ import "./applicationsPage.styles.scss";
 import WithSpinner from "../../components/with-spinner/with-spinner.component";
 import { setTokenInHeader } from "../../redux/user/user.utils";
 
-// import MemberCollection from "../../components/member-card-collections/member-card-collections";
+import ApplicationCollection from "../../components/application-card-collection/application-card-collection.component";
 
 import { getAllApplications } from "../../redux/application/application.actions";
 
-// const MemberCollectionWithSpinner = WithSpinner(MemberCollection);
+const ApplicationCollectionWithSpinner = WithSpinner(ApplicationCollection);
 
 const ApplicationsPage = ({
   token,
-  profiles,
+  applications,
   getAllApplications,
   isFetching,
 }) => {
@@ -21,7 +21,14 @@ const ApplicationsPage = ({
     getAllApplications();
   }, [getAllApplications, token]);
 
-  return <div className="applicationsPage">applications</div>;
+  return (
+    <div className="applicationsPage">
+      <ApplicationCollectionWithSpinner
+        passItem={applications}
+        isFetching={isFetching}
+      />
+    </div>
+  );
 };
 
 const mapStateToProps = (state) => ({

@@ -1,0 +1,90 @@
+.applicationContainer {
+  padding: 15px 50px;
+  background-color: #fff;
+  width: 700px;
+  border-radius: 10px;
+  border: 1px solid #d4d4ec;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+
+  &:hover {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    transition: 0.2s ease-in;
+  }
+}
+
+.applicationComponent {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  .applicationPicAndInfo-container {
+    display: flex;
+    align-items: center;
+    flex: 3;
+  }
+}
+
+.applicationPicContainer {
+  display: flex;
+  justify-content: center;
+  margin-right: 20px;
+
+  .dp-img {
+    height: 60px;
+    width: 60px;
+  }
+  .applicationempty-icon-box {
+    height: 60px;
+    width: 60px;
+
+    .applicationempty-icon {
+      width: 100%;
+      height: 100%;
+      padding-top: 2px;
+      border-radius: 50%;
+      border: 1px solid #d4d4ec;
+      background-color: #e0e0e0;
+      color: #999;
+    }
+  }
+}
+
+.applicationInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .applicationInfo-name {
+    color: #505153;
+    font-weight: bold;
+    line-height: 0;
+    padding-top: 10px;
+    padding-bottom: 7px;
+
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  .applicationInfo-email {
+    color: #898e96;
+    font-size: 12px;
+  }
+}
+
+.applcationButtons-Box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  button {
+    margin-right: 10px;
+    width: 80px;
+    border-radius: 15px;
+  }
+}
