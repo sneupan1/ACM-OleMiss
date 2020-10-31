@@ -33,7 +33,6 @@ const ProfilePage = ({
         component={ProfileWithSpinner}
       />
       <PrivateUserRoute
-        exact
         path={`${match.path}/me/edit`}
         isFetching={isFetching}
         passItem={profile}

@@ -9,6 +9,7 @@ function UploadModal({
   handleSubmit,
   uploadIndex,
   history,
+  id,
 }) {
   const [file, setFile] = useState();
   const [filename, setFilename] = useState("");
@@ -16,8 +17,8 @@ function UploadModal({
   const [warning, setWarning] = useState("");
 
   const onChange = (e) => {
-    if (!(e.target.files[0].size <= 2000000)) {
-      setWarning("File size should be less than 2 MB");
+    if (!(e.target.files[0].size <= 5000000)) {
+      setWarning("File size should be less than 5 MB");
     } else if (
       !e.target.files[0].name.toLowerCase().match(/\.(jpg|jpeg|png)$/)
     ) {
@@ -33,7 +34,7 @@ function UploadModal({
     e.preventDefault();
     const formData = new FormData();
     formData.append(uploadIndex, file);
-    handleSubmit(formData, history);
+    handleSubmit(formData, history, id);
   };
   return (
     <Fragment>

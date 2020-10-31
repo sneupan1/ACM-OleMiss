@@ -1,0 +1,12 @@
+.audienceModalDialog {
+  background-color: #f8f9fb;
+
+  &.modalBody {
+    height: 250px;
+    overflow: hidden;
+
+    &:hover {
+      overflow-y: auto;
+    }
+  }
+}

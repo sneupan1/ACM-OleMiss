@@ -9,8 +9,10 @@ const {
   FETCH_ALL_PROFILES_SUCCESS,
   UPDATE_PROFILE_START,
   UPDATE_PROFILE_COMPLETE,
+  UPDATE_DUES,
   SEND_OFFICER_APPLICATION,
   ACCOUNT_DELETE,
+  ACCOUNT_DELETE_BY_ID,
   PROFILE_ERROR,
 } = ProfileActionTypes;
 
@@ -53,8 +55,15 @@ export default function (state = INITIAL_STATE, action) {
         profileById: payload,
         isFetching: false,
       };
+    case UPDATE_DUES:
+      return {
+        ...state,
+        profileById: payload,
+        isFetching: false,
+      };
     case PROFILE_ERROR:
     case ACCOUNT_DELETE:
+    case ACCOUNT_DELETE_BY_ID:
       return {
         ...state,
         error: payload,

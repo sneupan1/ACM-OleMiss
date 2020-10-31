@@ -104,7 +104,7 @@ router.patch("/officer/dues/:profileId", officerAuth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
       _id: req.params.profileId,
-    }).populate("user", "role");
+    }).populate("user", ["name", "email", "role"]);
     if (profile.user.role !== "basic") {
       throw new Error("Cannot update");
     }

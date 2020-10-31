@@ -13,7 +13,7 @@ const Header = ({ logoutUser, role }) => {
         <Link to="/profile/me">Profile</Link>
       </div>
       <div className="header-item">
-        <Link to="/">Events</Link>
+        <Link to="/events">Events</Link>
       </div>
       <div className="header-item">
         <Link to="/members">Members</Link>
@@ -29,7 +29,7 @@ const Header = ({ logoutUser, role }) => {
   const guestLinks = () => (
     <Fragment>
       <div className="header-item">
-        <Link to="/">Events</Link>
+        <Link to="/events">Events</Link>
       </div>
       <div className="header-item">
         <Link to="/register/user">Register</Link>
@@ -46,7 +46,7 @@ const Header = ({ logoutUser, role }) => {
         <Link to="/profile/me">Profile</Link>
       </div>
       <div className="header-item">
-        <Link to="/">Events</Link>
+        <Link to="/events">Events</Link>
       </div>
       <div className="header-item">
         <Link to="/members">Members</Link>

@@ -11,8 +11,10 @@ const {
   FETCH_ALL_PROFILES_SUCCESS,
   UPDATE_PROFILE_START,
   UPDATE_PROFILE_COMPLETE,
+  UPDATE_DUES,
   SEND_OFFICER_APPLICATION,
   ACCOUNT_DELETE,
+  ACCOUNT_DELETE_BY_ID,
   PROFILE_ERROR,
   LOGOUT,
 } = ProfileActionTypes;
@@ -100,6 +102,22 @@ export const deleteProfile = (history) => async (dispatch) => {
   }
 };
 
+export const deleteProfileById = (id, history) => async (dispatch) => {
+  try {
+    history.push("/");
+    await Axios.delete(`/api/profile/${id}`);
+    dispatch({
+      type: ACCOUNT_DELETE_BY_ID,
+    });
+    dispatch(setAlert("Account Deleted Successfully!", "success"));
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
 //update profile picture
 export const uploadProfilePic = (formData, history) => async (dispatch) => {
   try {
@@ -137,6 +155,27 @@ export const getAllProfiles = () => async (dispatch) => {
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+  }
+};
+
+//update dues of members
+export const updateMemberDues = (id, formData) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const res = await Axios.patch(
+      `/api/user/officer/dues/${id}`,
+      formData,
+      config
+    );
+    dispatch({ type: UPDATE_DUES, payload: res.data });
+    setAlert("Dues has been updated successfully", "success");
+  } catch (err) {
+    const errors = err.response.data;
+    errors.forEach((err) => dispatch(setAlert(err.message, "danger")));
   }
 };
 

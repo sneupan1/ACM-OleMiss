@@ -13,6 +13,8 @@ router.post("/", officerAuth, async (req, res) => {
   try {
     if (req.body.participants) {
       delete req.body.participants;
+    } else if (req.body.price === "") {
+      req.body.price = 0;
     }
     const event = new Event(req.body);
     await event.save();
@@ -24,16 +26,13 @@ router.post("/", officerAuth, async (req, res) => {
 
 //  @route      POST api/event/all
 //  @desc       get all events
-//  @access     private
-router.get("/all", auth, async (req, res) => {
+//  @access     public
+router.get("/all", async (req, res) => {
   try {
     const events = await Event.find().populate("participants.user", [
       "name",
       "email",
     ]);
-    if (events.length === 0) {
-      return res.status(404).send([{ message: "There are no events for now" }]);
-    }
     res.send(events);
   } catch (err) {
     res.status(500).send(err.message);
@@ -41,14 +40,31 @@ router.get("/all", auth, async (req, res) => {
 });
 
 //  @route      POST api/event/:id
-//  @desc       get all events
+//  @desc       get events by id
 //  @access     private
 router.get("/:eventId", auth, async (req, res) => {
   try {
     const event = await Event.findOne({
       _id: req.params.eventId,
-    }).populate("participants.user", ["name", "email"]);
-    res.send(event);
+    })
+      .populate("participants.user", ["name", "email"])
+      .populate("participants.profile", ["avatar"]);
+
+    eventObject = event.toObject();
+    if (eventObject.flyer) {
+      eventObject.flyer = true;
+    } else {
+      eventObject.flyer = false;
+    }
+    eventObject.participants = eventObject.participants.map((person) => {
+      if (person.profile.avatar) {
+        person.profile.avatar = true;
+      } else {
+        person.profile.avatar = false;
+      }
+      return person;
+    });
+    res.send(eventObject);
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -61,7 +77,10 @@ router.patch("/:eventId", officerAuth, async (req, res) => {
   try {
     if (req.body.participants) {
       delete req.body.participants;
+    } else if (req.body.price === "") {
+      req.body.price = 0;
     }
+
     const event = await Event.findOneAndUpdate(
       { _id: req.params.eventId },
       req.body,
@@ -88,9 +107,12 @@ router.patch("/:eventId/register", auth, async (req, res) => {
         .status(400)
         .send([{ message: "You have already registered for this event." }]);
     }
-    event.participants = event.participants.concat({ user: req.user._id });
+    event.participants = event.participants.concat({
+      user: req.user._id,
+      profile: req.user.profile,
+    });
     await event.save();
-    res.send([{ message: "Registered for the event" }]);
+    res.send(event);
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -122,7 +144,7 @@ router.patch("/:eventId/unregister", auth, async (req, res) => {
       (participant) => participant.user.toString() !== req.user.id
     );
     await event.save();
-    res.send([{ message: "Removed from event" }]);
+    res.send(event);
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -143,7 +165,7 @@ router.delete("/:eventId", officerAuth, async (req, res) => {
 //trying file upload
 const upload = multer({
   limits: {
-    fileSize: 2000000,
+    fileSize: 5000000,
   },
   fileFilter(req, file, cb) {
     if (!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png)$/)) {
@@ -165,7 +187,7 @@ router.post(
       _id: req.params.id,
     }).populate("participants.user", ["name", "email"]);
     const buffer = await sharp(req.file.buffer)
-      .resize({ width: 500, height: 500 })
+      .resize({ width: 900, height: 400 })
       .png()
       .toBuffer();
     event.flyer = buffer;

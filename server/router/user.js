@@ -35,6 +35,8 @@ router.post("/", async (req, res) => {
     const token = await user.generateAuthToken();
     const profile = new Profile({ user: user._id });
     await profile.save();
+    user.profile = profile._id;
+    await user.save();
     res.status(201).send({ user, token });
   } catch (err) {
     if (err.errors) {

@@ -20,6 +20,10 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  time: {
+    type: String,
+    required: true,
+  },
   price: {
     type: Number,
     default: 0,
@@ -33,6 +37,10 @@ const eventSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
+      profile: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Profile",
+      },
     },
   ],
 });
@@ -41,7 +49,15 @@ eventSchema.methods.toJSON = function () {
   const event = this;
   const eventObject = event.toObject();
 
-  delete eventObject.flyer;
+  if (!eventObject.price) {
+    eventObject.price = "";
+  }
+
+  if (eventObject.flyer) {
+    eventObject.flyer = true;
+  } else {
+    eventObject.flyer = false;
+  }
 
   return eventObject;
 };
