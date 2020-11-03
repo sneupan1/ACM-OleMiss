@@ -12,6 +12,7 @@ const {
   UPDATE_FLYER_COMPLETE,
   JOIN_EVENT,
   CANCEL_EVENT,
+  REMOVE_PARTICIPANT,
   EVENT_DELETE,
   EVENT_ERROR,
 } = eventActionTypes;
@@ -106,11 +107,11 @@ export const updateEvent = (eventForm, id, history) => async (dispatch) => {
 
 export const deleteEvent = (history, id) => async (dispatch) => {
   try {
-    history.push("/");
     await Axios.delete(`/api/event/${id}`);
     dispatch({
       type: EVENT_DELETE,
     });
+    history.push("/events");
     dispatch(setAlert("Event Deleted Successfully!", "success"));
   } catch (err) {
     dispatch({
@@ -136,6 +137,17 @@ export const cancelEvent = (id) => async (dispatch) => {
     const res = await Axios.patch(`/api/event/${id}/unregister`);
     dispatch({ type: CANCEL_EVENT, payload: res.data });
     dispatch(setAlert("You have been removed from this event", "danger"));
+  } catch (err) {
+    const errors = err.response.data;
+    errors.forEach((err) => dispatch(setAlert(err.message, "danger")));
+  }
+};
+
+export const removeParticipant = (eventId, userId) => async (dispatch) => {
+  try {
+    await Axios.patch(`/api/event/${eventId}/user/${userId}`);
+    dispatch(setAlert("Participant removed from event", "success"));
+    dispatch({ type: REMOVE_PARTICIPANT, payload: userId });
   } catch (err) {
     const errors = err.response.data;
     errors.forEach((err) => dispatch(setAlert(err.message, "danger")));

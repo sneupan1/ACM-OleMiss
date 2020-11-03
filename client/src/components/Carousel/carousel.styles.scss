@@ -1,0 +1,42 @@
+.carousel-component {
+  .dark-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .carousel-caption {
+    bottom: 40%;
+  }
+
+  h3 {
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 0, 0, 0.9);
+    text-transform: uppercase;
+  }
+
+  p {
+    font-size: 1rem;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 35px rgba(0, 0, 0, 0.5);
+  }
+
+  .homepageButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button,
+    a {
+      width: 150px;
+      border-radius: 15px;
+      margin-right: 15px;
+    }
+  }
+  .wierhall {
+    transform: scale(1.5);
+  }
+}

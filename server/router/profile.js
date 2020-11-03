@@ -6,6 +6,7 @@ const auth = require("../middleware/auth");
 const officerAuth = require("../middleware/officerAuth");
 const multer = require("multer");
 const sharp = require("sharp");
+const compare = require("../utils/utils");
 
 //  @route      POST api/profile/me
 //  @desc       Register basic user profile
@@ -26,12 +27,11 @@ router.get("/me", auth, async (req, res) => {
 //  @access     Private
 router.get("/all", auth, async (req, res) => {
   try {
-    const profiles = await Profile.find().populate("user", [
-      "name",
-      "email",
-      "role",
-    ]);
-    res.send(profiles);
+    const profiles = await Profile.find().populate({
+      path: "user",
+      select: ["name", "email", "role"],
+    });
+    res.send(profiles.sort(compare));
   } catch (err) {
     res.status(500).send(err.messsage);
   }

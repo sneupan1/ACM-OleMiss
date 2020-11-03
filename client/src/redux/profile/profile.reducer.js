@@ -13,6 +13,7 @@ const {
   SEND_OFFICER_APPLICATION,
   ACCOUNT_DELETE,
   ACCOUNT_DELETE_BY_ID,
+  MAKE_ADMIN,
   PROFILE_ERROR,
 } = ProfileActionTypes;
 
@@ -49,6 +50,7 @@ export default function (state = INITIAL_STATE, action) {
         allProfiles: payload,
         isFetching: false,
       };
+    case MAKE_ADMIN:
     case FETCH_PROFILE_ID_SUCCESS:
       return {
         ...state,
@@ -58,6 +60,7 @@ export default function (state = INITIAL_STATE, action) {
     case UPDATE_DUES:
       return {
         ...state,
+        profile: payload,
         profileById: payload,
         isFetching: false,
       };

@@ -50,6 +50,10 @@ profileSchema.methods.toJSON = function () {
     profileObject.avatar = false;
   }
 
+  if (!profileObject.dues) {
+    profileObject.dues = 0;
+  }
+
   return profileObject;
 };
 

@@ -77,7 +77,7 @@ const EditEvent = ({ history, updateEvent, passItem: event }) => {
             min="0"
             value={price.toString()}
             handleChange={handleChange}
-            label="Price"
+            label="Price (optional)"
           />
           <FormInput
             type="textarea"

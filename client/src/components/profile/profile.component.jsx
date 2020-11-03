@@ -18,6 +18,7 @@ import {
   uploadProfilePic,
   updateMemberDues,
   deleteProfileById,
+  makeAdmin,
 } from "../../redux/profile/profile.actions";
 
 const Profile = ({
@@ -28,6 +29,7 @@ const Profile = ({
   deleteProfileById,
   uploadProfilePic,
   updateMemberDues,
+  makeAdmin,
 }) => {
   const toUpperCaseFilter = (d) => {
     return d.toUpperCase();
@@ -52,6 +54,11 @@ const Profile = ({
   const handleDuesClose = () => setShowDuesModal(false);
   const handleDuesShow = () => setShowDuesModal(true);
 
+  //modal for make admin feature
+  const [showAdminModal, setShowAdminModal] = useState(false);
+  const handleAdminClose = () => setShowAdminModal(false);
+  const handleAdminShow = () => setShowAdminModal(true);
+
   const handleDeleteAction = () => {
     deleteProfile(history);
   };
@@ -63,6 +70,12 @@ const Profile = ({
   const handleDuesSubmit = (formData) => {
     updateMemberDues(profile._id, formData);
     handleDuesClose();
+  };
+
+  const handleMakeAdmin = () => {
+    console.log("makingadmin");
+    makeAdmin(profile.user._id);
+    handleAdminClose();
   };
 
   return (
@@ -80,6 +93,13 @@ const Profile = ({
         handleAction={handleDeleteByIdAction}
       >
         Are you sure you want to remove this user?
+      </CustomModal>
+      <CustomModal
+        showModal={showAdminModal}
+        handleClose={handleAdminClose}
+        handleAction={handleMakeAdmin}
+      >
+        Are you sure you want to grant admin role to this user?
       </CustomModal>
       <UploadModal
         showModal={showDpModal}
@@ -169,7 +189,8 @@ const Profile = ({
                   </span>
                 </div>
               )}
-              {profile.user.role === "basic" &&
+              {(profile.user.role === "basic" ||
+                profile.user.role === "officer") &&
                 (profile.user._id === user._id ||
                   user.role === "officer" ||
                   user.role === "admin") && (
@@ -189,6 +210,16 @@ const Profile = ({
                     >
                       Edit Dues
                     </Button>
+                    {user.role === "admin" && (
+                      <Button
+                        className="deleteMember"
+                        variant="success"
+                        size="sm"
+                        onClick={handleAdminShow}
+                      >
+                        Make Admin
+                      </Button>
+                    )}
                     <Button
                       className="deleteMember"
                       variant="danger"
@@ -200,20 +231,53 @@ const Profile = ({
                   </div>
                 )}
 
-              {profile.user.role === "officer" && user.role === "admin" && (
-                <div className="profile-buttons">
-                  <Button
-                    className="deleteMember"
-                    variant="danger"
-                    size="sm"
-                    onClick={handleByIdShow}
-                  >
-                    Delete User
-                  </Button>
-                </div>
-              )}
+              {profile.user.role === "officer" &&
+                (user.role === "admin" || user.role === "officer") && (
+                  <div className="profile-buttons">
+                    {profile.user._id !== user._id && (
+                      <Button
+                        id="edit-dues"
+                        variant="info"
+                        size="sm"
+                        onClick={handleDuesShow}
+                      >
+                        Edit Dues
+                      </Button>
+                    )}
+                    {user.role === "admin" && (
+                      <Fragment>
+                        <Button
+                          className="deleteMember"
+                          variant="success"
+                          size="sm"
+                          onClick={handleAdminShow}
+                        >
+                          Make Admin
+                        </Button>
+                        <Button
+                          className="deleteMember"
+                          variant="danger"
+                          size="sm"
+                          onClick={handleByIdShow}
+                        >
+                          Delete User
+                        </Button>
+                      </Fragment>
+                    )}
+                  </div>
+                )}
               {profile.user._id === user._id && (
                 <div className="profile-buttons">
+                  {profile.user.role === "officer" && (
+                    <Button
+                      id="edit-dues"
+                      variant="info"
+                      size="sm"
+                      onClick={handleDuesShow}
+                    >
+                      Edit Dues
+                    </Button>
+                  )}
                   <Button
                     variant="info"
                     size="sm"
@@ -251,4 +315,5 @@ export default connect(mapStateToProps, {
   deleteProfileById,
   uploadProfilePic,
   updateMemberDues,
+  makeAdmin,
 })(Profile);

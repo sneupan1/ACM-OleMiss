@@ -29,10 +29,9 @@ router.post("/", officerAuth, async (req, res) => {
 //  @access     public
 router.get("/all", async (req, res) => {
   try {
-    const events = await Event.find().populate("participants.user", [
-      "name",
-      "email",
-    ]);
+    const events = await Event.find()
+      .sort({ date: 1 })
+      .populate("participants.user", ["name", "email"]);
     res.send(events);
   } catch (err) {
     res.status(500).send(err.message);

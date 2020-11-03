@@ -12,6 +12,7 @@ const {
   UPDATE_EVENT_COMPLETE,
   JOIN_EVENT,
   CANCEL_EVENT,
+  REMOVE_PARTICIPANT,
   EVENT_DELETE,
   EVENT_ERROR,
 } = eventActionTypes;
@@ -54,6 +55,17 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...state,
         event: payload,
+        isFetching: false,
+      };
+    case REMOVE_PARTICIPANT:
+      return {
+        ...state,
+        event: {
+          ...state.event,
+          participants: state.event.participants.filter(
+            (participant) => participant.user._id !== payload
+          ),
+        },
         isFetching: false,
       };
     case EVENT_DELETE:

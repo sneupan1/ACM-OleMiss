@@ -15,6 +15,7 @@ const {
   SEND_OFFICER_APPLICATION,
   ACCOUNT_DELETE,
   ACCOUNT_DELETE_BY_ID,
+  MAKE_ADMIN,
   PROFILE_ERROR,
   LOGOUT,
 } = ProfileActionTypes;
@@ -93,7 +94,6 @@ export const deleteProfile = (history) => async (dispatch) => {
       type: ACCOUNT_DELETE,
     });
     dispatch({ type: LOGOUT });
-    dispatch(setAlert("Account Deleted Successfully!", "success"));
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
@@ -104,11 +104,11 @@ export const deleteProfile = (history) => async (dispatch) => {
 
 export const deleteProfileById = (id, history) => async (dispatch) => {
   try {
-    history.push("/");
     await Axios.delete(`/api/profile/${id}`);
     dispatch({
       type: ACCOUNT_DELETE_BY_ID,
     });
+    history.push("/members");
     dispatch(setAlert("Account Deleted Successfully!", "success"));
   } catch (err) {
     dispatch({
@@ -172,7 +172,7 @@ export const updateMemberDues = (id, formData) => async (dispatch) => {
       config
     );
     dispatch({ type: UPDATE_DUES, payload: res.data });
-    setAlert("Dues has been updated successfully", "success");
+    dispatch(setAlert("Dues has been updated successfully", "success"));
   } catch (err) {
     const errors = err.response.data;
     errors.forEach((err) => dispatch(setAlert(err.message, "danger")));
@@ -192,5 +192,19 @@ export const sendOfficerApplication = () => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data;
     errors.forEach((err) => dispatch(setAlert(err.message, "danger")));
+  }
+};
+
+//make admin
+export const makeAdmin = (id) => async (dispatch) => {
+  try {
+    const res = await Axios.patch(`/api/user/${id}/makeadmin`);
+    dispatch({ type: MAKE_ADMIN, payload: res.data });
+    dispatch(setAlert("Changed role to admin", "success"));
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };

@@ -54,6 +54,7 @@ const Event = ({
         showModal={showAudienceModal}
         handleClose={handleAudienceClose}
         participants={event.participants}
+        history={history}
       />
       <CustomModal
         showModal={showModal}

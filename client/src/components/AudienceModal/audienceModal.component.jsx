@@ -5,7 +5,7 @@ import AudienceCard from "../audience-card/audience-card.component";
 
 import "./audienceModal.styles.scss";
 
-function AudienceModal({ showModal, handleClose, handleSubmit, participants }) {
+function AudienceModal({ showModal, handleClose, participants, history }) {
   return (
     <Fragment>
       <Modal
@@ -20,15 +20,16 @@ function AudienceModal({ showModal, handleClose, handleSubmit, participants }) {
         </Modal.Header>
         <Modal.Body className="audienceModalDialog modalBody">
           {participants.map((participant) => (
-            <AudienceCard key={participant._id} participant={participant} />
+            <AudienceCard
+              key={participant._id}
+              participant={participant}
+              history={history}
+            />
           ))}
         </Modal.Body>
         <Modal.Footer className="audienceModalDialog">
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="primary" type="submit" form="duesModal-Form">
-            Save
           </Button>
         </Modal.Footer>
       </Modal>

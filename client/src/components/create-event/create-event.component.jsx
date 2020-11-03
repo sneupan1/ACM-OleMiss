@@ -77,7 +77,7 @@ const CreateEvent = ({ history, createEvent }) => {
             min="0"
             value={price}
             handleChange={handleChange}
-            label="Price"
+            label="Price (optional)"
           />
           <FormInput
             type="textarea"
