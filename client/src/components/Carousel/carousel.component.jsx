@@ -4,6 +4,46 @@ import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
 import "./carousel.styles.scss";
 
+import { motion } from "framer-motion";
+
+const h3Variants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      duration: 1,
+    },
+  },
+};
+
+const pVariants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      delay: 0.2,
+      duration: 1,
+    },
+  },
+};
+
+const buttonVariants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      delay: 0.3,
+      duration: 1,
+    },
+  },
+};
+
 function ControlledCarousel({ token, history }) {
   const [index, setIndex] = useState(0);
 
@@ -25,13 +65,23 @@ function ControlledCarousel({ token, history }) {
         />
         <div className="dark-overlay" />
         <Carousel.Caption>
-          <h3>Association of Computing Machinery</h3>
-          <p>
-            Dedicated to promoting interest in computing and information
-            technologies among members of the Ole Miss Community.
-          </p>
+          <motion.div variants={h3Variants} initial="initial" animate="animate">
+            <h3>Association of Computing Machinery</h3>
+          </motion.div>
+          <motion.div variants={pVariants} initial="initial" animate="animate">
+            <p>
+              Dedicated to promoting interest in computing and information
+              technologies among members of the Ole Miss Community.
+            </p>
+          </motion.div>
+
           {!token && (
-            <div className="homepageButtons">
+            <motion.div
+              className="homepageButtons"
+              variants={buttonVariants}
+              initial="initial"
+              animate="animate"
+            >
               <Button
                 variant="primary"
                 onClick={() => history.push("/register/user")}
@@ -41,7 +91,7 @@ function ControlledCarousel({ token, history }) {
               <Button variant="info" onClick={() => history.push("/login")}>
                 Login
               </Button>
-            </div>
+            </motion.div>
           )}
         </Carousel.Caption>
       </Carousel.Item>

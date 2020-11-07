@@ -1,6 +1,7 @@
 import Axios from "axios";
 import { setAlert } from "../alert/alert.actions";
 import { ProfileActionTypes } from "./profile.types";
+import moment from "moment";
 
 const {
   FETCH_PROFILE_START,
@@ -207,4 +208,50 @@ export const makeAdmin = (id) => async (dispatch) => {
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
+};
+
+export const downloadEmails = (profiles) => async (dispatch) => {
+  var text = "";
+  profiles.forEach((profile) => {
+    text = text + profile.user.email + ";\n";
+  });
+  var element = document.createElement("a");
+  element.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+  );
+  element.setAttribute("download", "memberEmails");
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+};
+
+export const downloadMembersInfo = (profiles) => async (dispatch) => {
+  var csvContent =
+    "Name, Email, Role, Dues, Classification, Major, Graduation" + "\n";
+
+  profiles.forEach((profile) => {
+    csvContent += `${profile.user.name} , ${profile.user.email}, ${
+      profile.user.role
+    }, ${profile.dues}, ${
+      profile.classification ? profile.classification : ""
+    }, ${profile.major ? profile.major : ""}, ${
+      profile.graduationDate
+        ? moment(profile.graduationDate).format("MMM YYYY")
+        : ""
+    }\n`;
+  });
+  var element = document.createElement("a");
+  element.setAttribute(
+    "href",
+    "data:text/csv;charset=utf-8," + encodeURIComponent(csvContent)
+  );
+  element.setAttribute("download", "membersInfo.csv");
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
 };

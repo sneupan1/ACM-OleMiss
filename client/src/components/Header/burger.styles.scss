@@ -1,0 +1,42 @@
+.burgerComponent {
+  width: 2rem;
+  height: 25px;
+  position: absolute;
+  right: 38px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 999999;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+
+  div {
+    width: 2rem;
+    height: 0.2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    transform: rotate(0) translate(0);
+    transition: all 0.3s linear;
+  }
+
+  &.openBurger {
+    div {
+      background-color: rgb(210, 216, 210);
+      transform-origin: 1px;
+      &:nth-child(1) {
+        transform: rotate(45deg);
+      }
+
+      &:nth-child(2) {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      &:nth-child(3) {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+}

@@ -88,3 +88,38 @@
     border-radius: 15px;
   }
 }
+
+@media screen and (max-width: 800px) {
+  .applicationContainer {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .applicationComponent .applicationPicAndInfo-container {
+    flex-direction: column;
+    align-items: start;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .applicationContainer {
+    padding: 15px;
+  }
+  .applicationComponent {
+    flex-direction: column;
+    align-items: center;
+    .applicationPicAndInfo-container,
+    .applicationInfo {
+      align-items: center;
+
+      .applicationPicContainer {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .applcationButtons-Box {
+    margin-top: 5px;
+  }
+}

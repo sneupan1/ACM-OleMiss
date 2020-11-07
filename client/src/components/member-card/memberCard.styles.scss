@@ -102,3 +102,34 @@
     }
   }
 }
+
+@media screen and (max-width: 800px) {
+  .memberContainer {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .memberComponent .memberPicAndInfo-container {
+    flex-direction: column;
+    align-items: start;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .memberContainer {
+    padding: 15px;
+  }
+  .memberComponent {
+    flex-direction: column;
+    align-items: center;
+    .memberPicAndInfo-container,
+    .memberInfo {
+      align-items: center;
+
+      .memberPicContainer {
+        margin-right: 0;
+      }
+    }
+  }
+}

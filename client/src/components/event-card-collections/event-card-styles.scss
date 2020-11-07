@@ -18,3 +18,21 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 15px;
 }
+
+@media screen and (max-width: 1200px) {
+  .event-cards-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .event-cards-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .event-cards-container {
+    grid-template-columns: 1fr;
+  }
+}

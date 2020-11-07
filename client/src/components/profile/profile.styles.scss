@@ -168,3 +168,35 @@
     }
   }
 }
+
+@media screen and (max-width: 550px) {
+  .profileContainer {
+    width: auto;
+
+    .profile-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 2px;
+
+      button {
+        margin-right: 0;
+      }
+    }
+
+    .profileComponent .profileInfo-container {
+      flex-direction: column;
+
+      .profile-basicInfo {
+        margin-left: 0px;
+      }
+
+      .profile-img {
+        width: auto;
+
+        img {
+          width: auto;
+        }
+      }
+    }
+  }
+}

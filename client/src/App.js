@@ -19,6 +19,7 @@ import ViewEvent from "./pages/ViewEvent/viewEvent.component";
 import PrivateRoute from "./components/routing/private-user-route.component";
 import PrivateAdminRoute from "./components/routing/private-admin-route.component";
 import PrivateOfficerRoute from "./components/routing/private-officer-route.component";
+import ErrorBoundary from "./components/ErrorBoundary/errorBoundary.component";
 
 import { setTokenInHeader } from "./redux/user/user.utils";
 import { loadUser } from "./redux/user/user.actions";
@@ -36,31 +37,33 @@ function App({ token, loadUser }) {
     <div className="App">
       <Header />
       <Alert />
-      <Switch>
-        <Route exact path="/" component={Homepage} />
-        <Route path="/register" component={SignupPage} />
-        <Route path="/login" component={SigninPage} />
-        <Route path="/profile" component={ProfilePage} />
-        <Route exact path="/members" component={MembersPage} />
-        <PrivateRoute exact path="/members/:id" component={ViewProfile} />
-        <PrivateAdminRoute
-          exact
-          path="/applications"
-          component={ApplicationsPage}
-        />
-        <Route exact path="/events" component={EventsPage} />
-        <PrivateOfficerRoute
-          exact
-          path="/events/create"
-          component={CreateEventPage}
-        />
-        <PrivateRoute exact path="/events/:id" component={ViewEvent} />
-        <PrivateOfficerRoute
-          exact
-          path="/events/:id/edit"
-          component={EditEventPage}
-        />
-      </Switch>
+      <ErrorBoundary>
+        <Switch>
+          <Route exact path="/" component={Homepage} />
+          <Route path="/register" component={SignupPage} />
+          <Route path="/login" component={SigninPage} />
+          <Route path="/profile" component={ProfilePage} />
+          <Route exact path="/members" component={MembersPage} />
+          <PrivateRoute exact path="/members/:id" component={ViewProfile} />
+          <PrivateAdminRoute
+            exact
+            path="/applications"
+            component={ApplicationsPage}
+          />
+          <Route exact path="/events" component={EventsPage} />
+          <PrivateOfficerRoute
+            exact
+            path="/events/create"
+            component={CreateEventPage}
+          />
+          <PrivateRoute exact path="/events/:id" component={ViewEvent} />
+          <PrivateOfficerRoute
+            exact
+            path="/events/:id/edit"
+            component={EditEventPage}
+          />
+        </Switch>
+      </ErrorBoundary>
     </div>
   );
 }

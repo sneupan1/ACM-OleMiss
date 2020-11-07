@@ -10,9 +10,10 @@
 
   .acm-logo {
     height: 100%;
-    width: 250px;
     display: flex;
     align-items: center;
+    z-index: 999999;
+    background-color: #383956;
     .logo {
       height: 80%;
     }
@@ -22,6 +23,24 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      position: absolute;
+      z-index: 9999;
+      left: 0px;
+      background-color: #383956;
+      width: 100%;
+      transform: translateY(-150%);
+      top: 70px;
+      transition: transform 0.2s ease-in-out;
+
+      &.openNav {
+        transition: transform 0.5s ease-in-out;
+        transform: translateY(0);
+      }
+    }
   }
 
   .header-item {
@@ -30,6 +49,11 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    @media (max-width: 768px) {
+      width: auto;
+      height: 50px;
+      padding: 0 45px;
+    }
 
     a {
       text-decoration: none;

@@ -26,6 +26,9 @@ const CreateEvent = ({ history, createEvent }) => {
     });
   };
 
+  const isFutureDate = (date) =>
+    date.diff(moment(new Date())) > 0 ? true : false;
+
   const handleSubmit = (e) => {
     e.preventDefault();
     createEvent(form, history);
@@ -50,7 +53,11 @@ const CreateEvent = ({ history, createEvent }) => {
           <FormInput
             type="date"
             name="date"
-            value={moment(date).format("YYYY-MM-DD")}
+            value={
+              isFutureDate(moment(date))
+                ? moment(date).format("YYYY-MM-DD")
+                : moment("").format("YYYY-MM-DD")
+            }
             handleChange={handleChange}
             label="Date of Event"
             required

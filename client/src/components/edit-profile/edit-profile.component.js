@@ -32,6 +32,9 @@ const EditProfile = ({ passItem: profile, history, updateProfile }) => {
     });
   };
 
+  const isFutureDate = (date) =>
+    date.diff(moment(new Date())) > 0 ? true : false;
+
   const onSubmit = (e) => {
     e.preventDefault();
     updateProfile(profileForm, history);
@@ -59,7 +62,11 @@ const EditProfile = ({ passItem: profile, history, updateProfile }) => {
           <FormInput
             type="date"
             name="graduationDate"
-            value={moment(graduationDate).format("YYYY-MM-DD")}
+            value={
+              isFutureDate(moment(graduationDate))
+                ? moment(graduationDate).format("YYYY-MM-DD")
+                : moment("").format("YYYY-MM-DD")
+            }
             handleChange={handleChange}
             label="Graduation Date"
           />

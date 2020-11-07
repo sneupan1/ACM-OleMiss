@@ -54,6 +54,7 @@
 
     .dateContainer {
       width: 110px;
+      min-width: 110px;
       height: 110px;
       display: flex;
       flex-direction: column;
@@ -163,6 +164,38 @@
     &.joinCancel {
       button {
         width: 120px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .eventContainer {
+    padding: 10px;
+    width: auto;
+
+    .eventInfo-container {
+      flex-direction: column;
+
+      .dateContainer {
+        width: 80%;
+        margin-bottom: 10px;
+      }
+    }
+
+    .eventButtons {
+      align-self: start;
+      margin-top: 8px;
+
+      &.officerButtons {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        #viewParticipantsButton {
+          margin-top: 5px;
+          border-radius: 15px;
+        }
       }
     }
   }
