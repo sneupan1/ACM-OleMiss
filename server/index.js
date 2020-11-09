@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const axios = require("axios");
+const path = require("path");
 const cors = require("cors");
 require("./db/mongoose"); //connect mongoDB
 
@@ -12,9 +13,14 @@ app.use("/api/user", require("./router/officer"));
 app.use("/api/user", require("./router/admin"));
 app.use("/api/profile", require("./router/profile"));
 app.use("/api/event", require("./router/event"));
-app.use((req, res) => {
-  res.status(404).send([{ message: "page not found" }]);
-});
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname + "/../client/build/index.html")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/../client/build/index.html"));
+  });
+}
 
 app.listen(PORT, () => {
   console.log("Server is running at port ", PORT);
