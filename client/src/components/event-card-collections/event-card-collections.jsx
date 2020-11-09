@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import Button from "react-bootstrap/button";
+import Button from "react-bootstrap/Button";
 import moment from "moment";
 import "./event-card-styles.scss";
 
