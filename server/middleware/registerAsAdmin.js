@@ -1,6 +1,6 @@
 const registerAsAdmin = async (req, res, next) => {
   try {
-    if (req.body.key === process.env.ADMIN_TOKEN) {
+    if (req.body.key === "REGISTER_ACM_ADMIN") {
       delete req.body.key;
       next();
     } else {

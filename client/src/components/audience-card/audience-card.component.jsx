@@ -20,7 +20,7 @@ const AudienceCard = ({ participant, history, removeParticipant, eventId }) => {
             {participant.profile.avatar ? (
               <Image
                 className="dp-img"
-                src={`${process.env.REACT_APP_SERVER_URL}/api/profile/${participant.profile._id}/avatar`}
+                src={`/api/profile/${participant.profile._id}/avatar`}
                 roundedCircle
               />
             ) : (

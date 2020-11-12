@@ -60,7 +60,7 @@ function ControlledCarousel({ token, history }) {
       <Carousel.Item>
         <img
           className="d-block w-100 wierhall"
-          src="weirhall.jpg"
+          src="./weirhall.jpg"
           alt="First slide"
         />
         <div className="dark-overlay" />
@@ -96,7 +96,11 @@ function ControlledCarousel({ token, history }) {
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <img className="d-block w-100" src="teamwork2.jpg" alt="Second slide" />
+        <img
+          className="d-block w-100"
+          src="./teamwork2.jpg"
+          alt="Second slide"
+        />
         <div className="dark-overlay" />
         <Carousel.Caption>
           <h3>Register for an event</h3>
@@ -112,7 +116,7 @@ function ControlledCarousel({ token, history }) {
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <img className="d-block w-100" src="CSLabs.jpg" alt="Third slide" />
+        <img className="d-block w-100" src="./CSLabs.jpg" alt="Third slide" />
         <div className="dark-overlay" />
         <Carousel.Caption>
           <h3>About the ACM Club</h3>

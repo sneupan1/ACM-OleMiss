@@ -76,7 +76,7 @@ const Event = ({
           {event.flyer ? (
             <Image
               className="event-img"
-              src={`${process.env.REACT_APP_SERVER_URL}/api/event/${event._id}/flyer`}
+              src={`/api/event/${event._id}/flyer`}
               fluid
               thumbnail
             />

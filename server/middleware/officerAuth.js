@@ -4,7 +4,7 @@ const User = require("../models/user");
 const officerAuth = async (req, res, next) => {
   try {
     const token = req.header("x-auth-token");
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, "THIS_IS_TOP_SECRET");
     const user = await User.findOne({
       _id: decoded,
       "tokens.token": token,

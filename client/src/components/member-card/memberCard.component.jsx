@@ -20,7 +20,7 @@ const MemberCard = ({ profile, history }) => {
             {profile.avatar ? (
               <Image
                 className="dp-img"
-                src={`${process.env.REACT_APP_SERVER_URL}/api/profile/${profile._id}/avatar`}
+                src={`/api/profile/${profile._id}/avatar`}
                 roundedCircle
               />
             ) : (

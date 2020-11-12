@@ -13,11 +13,7 @@ const EventCard = ({ event, history }) => {
     >
       <div className="events-image-container">
         {event.flyer ? (
-          <Image
-            variant="top"
-            src={`${process.env.REACT_APP_SERVER_URL}/api/event/${event._id}/flyer`}
-            fluid
-          />
+          <Image variant="top" src={`/api/event/${event._id}/flyer`} fluid />
         ) : (
           <FaImage className="card-img-top emptyFlyerEvents-icon" />
         )}

@@ -25,7 +25,7 @@ const ApplicationCard = ({
             {application.profile.avatar ? (
               <Image
                 className="dp-img"
-                src={`${process.env.REACT_APP_SERVER_URL}/api/profile/${application.profile._id}/avatar`}
+                src={`/api/profile/${application.profile._id}/avatar`}
                 roundedCircle
               />
             ) : (
