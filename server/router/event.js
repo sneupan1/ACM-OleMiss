@@ -55,14 +55,25 @@ router.get("/:eventId", auth, async (req, res) => {
     } else {
       eventObject.flyer = false;
     }
-    eventObject.participants = eventObject.participants.map((person) => {
-      if (person.profile.avatar) {
-        person.profile.avatar = true;
-      } else {
-        person.profile.avatar = false;
-      }
-      return person;
-    });
+    //checks for deleted user
+    eventObject.participants = eventObject.participants.reduce(
+      (list, person) => {
+        if (person.user !== null) {
+          if (person.profile.avatar) {
+            person.profile.avatar = true;
+          } else {
+            person.profile.avatar = false;
+          }
+          list.push(person);
+          return list;
+        } else return list;
+      },
+      []
+    );
+
+    if (!eventObject.participants) {
+      eventObject.participants = [];
+    }
     res.send(eventObject);
   } catch (err) {
     res.status(500).send(err.message);
