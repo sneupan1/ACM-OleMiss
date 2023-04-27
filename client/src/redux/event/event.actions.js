@@ -17,6 +17,8 @@ const {
   EVENT_ERROR,
 } = eventActionTypes;
 
+const API_URL = process.env.API_URL || "";
+
 export const createEvent = (form, history) => async (dispatch) => {
   try {
     const config = {
@@ -24,7 +26,7 @@ export const createEvent = (form, history) => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const res = await Axios.post("/api/event", form, config);
+    const res = await Axios.post(`${API_URL}/api/event`, form, config);
     dispatch({ type: CREATE_EVENT });
     history.goBack();
     setAlert("Event Added", "success");
@@ -39,7 +41,7 @@ export const createEvent = (form, history) => async (dispatch) => {
 export const getAllEvents = () => async (dispatch) => {
   try {
     dispatch({ type: FETCH_ALL_EVENTS_START });
-    const res = await Axios.get("/api/event/all");
+    const res = await Axios.get(`${API_URL}/api/event/all`);
     dispatch({ type: FETCH_ALL_EVENTS_SUCCESS, payload: res.data });
   } catch (err) {
     dispatch({
@@ -52,7 +54,7 @@ export const getAllEvents = () => async (dispatch) => {
 export const getEventById = (id) => async (dispatch) => {
   try {
     dispatch({ type: FETCH_EVENT_ID_START });
-    const res = await Axios.get(`/api/event/${id}`);
+    const res = await Axios.get(`${API_URL}/api/event/${id}`);
     dispatch({ type: FETCH_EVENT_ID_SUCCESS, payload: res.data });
   } catch (err) {
     dispatch({
@@ -69,7 +71,7 @@ export const updateFlyer = (form, history, id) => async (dispatch) => {
     },
   };
   try {
-    const res = await Axios.post(`/api/event/${id}/flyer`, form, config);
+    const res = await Axios.post(`${API_URL}/api/event/${id}/flyer`, form, config);
     dispatch({
       type: UPDATE_FLYER_COMPLETE,
       payload: res.data,
@@ -91,7 +93,7 @@ export const updateEvent = (eventForm, id, history) => async (dispatch) => {
     type: UPDATE_EVENT_START,
   });
   try {
-    const res = await Axios.patch(`/api/event/${id}`, eventForm, config);
+    const res = await Axios.patch(`${API_URL}/api/event/${id}`, eventForm, config);
     dispatch({
       type: UPDATE_EVENT_COMPLETE,
       payload: res.data,
@@ -107,7 +109,7 @@ export const updateEvent = (eventForm, id, history) => async (dispatch) => {
 
 export const deleteEvent = (history, id) => async (dispatch) => {
   try {
-    await Axios.delete(`/api/event/${id}`);
+    await Axios.delete(`${API_URL}/api/event/${id}`);
     dispatch({
       type: EVENT_DELETE,
     });
@@ -123,7 +125,7 @@ export const deleteEvent = (history, id) => async (dispatch) => {
 
 export const joinEvent = (id) => async (dispatch) => {
   try {
-    const res = await Axios.patch(`/api/event/${id}/register`);
+    const res = await Axios.patch(`${API_URL}/api/event/${id}/register`);
     dispatch({ type: JOIN_EVENT, payload: res.data });
     dispatch(setAlert("You have been registered for this event.", "success"));
   } catch (err) {
@@ -134,7 +136,7 @@ export const joinEvent = (id) => async (dispatch) => {
 
 export const cancelEvent = (id) => async (dispatch) => {
   try {
-    const res = await Axios.patch(`/api/event/${id}/unregister`);
+    const res = await Axios.patch(`${API_URL}/api/event/${id}/unregister`);
     dispatch({ type: CANCEL_EVENT, payload: res.data });
     dispatch(setAlert("You have been removed from this event", "danger"));
   } catch (err) {
@@ -145,7 +147,7 @@ export const cancelEvent = (id) => async (dispatch) => {
 
 export const removeParticipant = (eventId, userId) => async (dispatch) => {
   try {
-    await Axios.patch(`/api/event/${eventId}/user/${userId}`);
+    await Axios.patch(`${API_URL}/api/event/${eventId}/user/${userId}`);
     dispatch(setAlert("Participant removed from event", "success"));
     dispatch({ type: REMOVE_PARTICIPANT, payload: userId });
   } catch (err) {

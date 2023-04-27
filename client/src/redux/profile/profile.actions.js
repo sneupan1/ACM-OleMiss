@@ -21,6 +21,8 @@ const {
   LOGOUT,
 } = ProfileActionTypes;
 
+const API_URL = process.env.API_URL || "";
+
 //get current profile
 export const getCurrentProfile = () => async (dispatch) => {
   dispatch({
@@ -28,7 +30,7 @@ export const getCurrentProfile = () => async (dispatch) => {
   });
 
   try {
-    const res = await Axios.get("/api/profile/me");
+    const res = await Axios.get(`${API_URL}/api/profile/me`);
     dispatch({
       type: FETCH_PROFILE_SUCCESS,
       payload: res.data,
@@ -48,7 +50,7 @@ export const getProfileById = (id) => async (dispatch) => {
   });
 
   try {
-    const res = await Axios.get(`/api/profile/${id}`);
+    const res = await Axios.get(`${API_URL}/api/profile/${id}`);
     dispatch({
       type: FETCH_PROFILE_ID_SUCCESS,
       payload: res.data,
@@ -72,7 +74,7 @@ export const updateProfile = (profileForm, history) => async (dispatch) => {
     type: UPDATE_PROFILE_START,
   });
   try {
-    const res = await Axios.patch("/api/profile/me", profileForm, config);
+    const res = await Axios.patch(`${API_URL}/api/profile/me`, profileForm, config);
     dispatch({
       type: UPDATE_PROFILE_COMPLETE,
       payload: res.data,
@@ -90,7 +92,7 @@ export const updateProfile = (profileForm, history) => async (dispatch) => {
 export const deleteProfile = (history) => async (dispatch) => {
   try {
     history.push("/");
-    await Axios.delete("/api/profile/me");
+    await Axios.delete(`${API_URL}/api/profile/me`);
     dispatch({
       type: ACCOUNT_DELETE,
     });
@@ -105,7 +107,7 @@ export const deleteProfile = (history) => async (dispatch) => {
 
 export const deleteProfileById = (id, history) => async (dispatch) => {
   try {
-    await Axios.delete(`/api/profile/${id}`);
+    await Axios.delete(`${API_URL}/api/profile/${id}`);
     dispatch({
       type: ACCOUNT_DELETE_BY_ID,
     });
@@ -127,7 +129,7 @@ export const uploadProfilePic = (formData, history) => async (dispatch) => {
         "Content-type": "multipart/form-data",
       },
     };
-    const res = await Axios.post("/api/profile/me/avatar", formData, config);
+    const res = await Axios.post(`${API_URL}/api/profile/me/avatar`, formData, config);
     dispatch({
       type: UPDATE_PROFILE_COMPLETE,
       payload: res.data,
@@ -146,7 +148,7 @@ export const getAllProfiles = () => async (dispatch) => {
   });
 
   try {
-    const res = await Axios.get("/api/profile/all");
+    const res = await Axios.get(`${API_URL}/api/profile/all`);
     dispatch({
       type: FETCH_ALL_PROFILES_SUCCESS,
       payload: res.data,
@@ -168,7 +170,7 @@ export const updateMemberDues = (id, formData) => async (dispatch) => {
       },
     };
     const res = await Axios.patch(
-      `/api/user/officer/dues/${id}`,
+      `${API_URL}/api/user/officer/dues/${id}`,
       formData,
       config
     );
@@ -188,7 +190,7 @@ export const sendOfficerApplication = () => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const res = await Axios.post("/api/user/officer", config);
+    const res = await Axios.post(`${API_URL}/api/user/officer`, config);
     dispatch(setAlert("Application sent to admin", "success"));
   } catch (err) {
     const errors = err.response.data;
@@ -199,7 +201,7 @@ export const sendOfficerApplication = () => async (dispatch) => {
 //make admin
 export const makeAdmin = (id) => async (dispatch) => {
   try {
-    const res = await Axios.patch(`/api/user/${id}/makeadmin`);
+    const res = await Axios.patch(`${API_URL}/api/user/${id}/makeadmin`);
     dispatch({ type: MAKE_ADMIN, payload: res.data });
     dispatch(setAlert("Changed role to admin", "success"));
   } catch (err) {

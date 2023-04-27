@@ -10,11 +10,13 @@ const {
   NO_APPLICATIONS,
 } = applicationActionTypes;
 
+const API_URL = process.env.API_URL || "";
+
 //fetch all applications
 export const getAllApplications = () => async (dispatch) => {
   try {
     dispatch({ type: FETCH_ALL_APPLICATIONS_START });
-    const res = await Axios.get("/api/user/officer/applications");
+    const res = await Axios.get(`${API_URL}/api/user/officer/applications`);
     dispatch({ type: FETCH_ALL_APPLICATIONS_SUCCESS, payload: res.data });
   } catch (err) {
     const errors = err.response.data;
@@ -25,7 +27,7 @@ export const getAllApplications = () => async (dispatch) => {
 //approve officer application by id
 export const approveApplication = (id) => async (dispatch) => {
   try {
-    const res = await Axios.patch(`/api/user/officer/application/${id}`);
+    const res = await Axios.patch(`${API_URL}/api/user/officer/application/${id}`);
     dispatch({ type: APPROVE_APPLICATION, payload: id });
     dispatch(setAlert("Application approved", "success"));
   } catch (err) {
@@ -39,7 +41,7 @@ export const approveApplication = (id) => async (dispatch) => {
 //reject officer application by id
 export const rejectApplication = (id) => async (dispatch) => {
   try {
-    const res = await Axios.delete(`/api/user/officer/application/${id}`);
+    const res = await Axios.delete(`${API_URL}/api/user/officer/application/${id}`);
     dispatch({ type: REJECT_APPLICATION, payload: id });
     dispatch(setAlert("Application rejected", "warning"));
   } catch (err) {
