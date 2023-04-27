@@ -17,6 +17,8 @@ const ApplicationCard = ({
   approveApplication,
   rejectApplication,
 }) => {
+  const API_URL = process.env.REACT_APP_API_URL || "";
+
   return (
     <div className="applicationContainer">
       <div className="applicationComponent">
@@ -25,7 +27,7 @@ const ApplicationCard = ({
             {application.profile.avatar ? (
               <Image
                 className="dp-img"
-                src={`/api/profile/${application.profile._id}/avatar`}
+                src={`${API_URL}/api/profile/${application.profile._id}/avatar`}
                 roundedCircle
               />
             ) : (

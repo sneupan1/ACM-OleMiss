@@ -6,6 +6,7 @@ import moment from "moment";
 import "./event-card.styles.scss";
 
 const EventCard = ({ event, history }) => {
+  const API_URL = process.env.REACT_APP_API_URL || "";
   return (
     <div
       className="eventCard"
@@ -13,7 +14,7 @@ const EventCard = ({ event, history }) => {
     >
       <div className="events-image-container">
         {event.flyer ? (
-          <Image variant="top" src={`/api/event/${event._id}/flyer`} fluid />
+          <Image variant="top" src={`${API_URL}/api/event/${event._id}/flyer`} fluid />
         ) : (
           <FaImage className="card-img-top emptyFlyerEvents-icon" />
         )}

@@ -7,6 +7,7 @@ import { FaUserAlt } from "react-icons/fa";
 import Badge from "react-bootstrap/Badge";
 
 const MemberCard = ({ profile, history }) => {
+  const API_URL = process.env.REACT_APP_API_URL || "";
   return (
     <div
       className="memberContainer"
@@ -20,7 +21,7 @@ const MemberCard = ({ profile, history }) => {
             {profile.avatar ? (
               <Image
                 className="dp-img"
-                src={`/api/profile/${profile._id}/avatar`}
+                src={`${API_URL}/api/profile/${profile._id}/avatar`}
                 roundedCircle
               />
             ) : (

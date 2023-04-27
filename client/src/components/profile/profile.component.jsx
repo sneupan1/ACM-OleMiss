@@ -33,6 +33,7 @@ const Profile = ({
   const toUpperCaseFilter = (d) => {
     return d.toUpperCase();
   };
+  const API_URL = process.env.REACT_APP_API_URL || "";
   //modal for delete profile
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
@@ -120,7 +121,7 @@ const Profile = ({
               {profile.avatar ? (
                 <Image
                   className="dp-img"
-                  src={`/api/profile/${profile._id}/avatar`}
+                  src={`${API_URL}/api/profile/${profile._id}/avatar`}
                   roundedCircle
                 />
               ) : (

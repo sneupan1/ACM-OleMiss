@@ -29,6 +29,7 @@ const Event = ({
   joinEvent,
   cancelEvent,
 }) => {
+  const API_URL = process.env.REACT_APP_API_URL || "";
   //modal for edit flyer picture
   const [showFlyerModal, setShowFlyerModal] = useState(false);
   const handleFlyerClose = () => setShowFlyerModal(false);
@@ -76,7 +77,7 @@ const Event = ({
           {event.flyer ? (
             <Image
               className="event-img"
-              src={`/api/event/${event._id}/flyer`}
+              src={`${API_URL}/api/event/${event._id}/flyer`}
               fluid
               thumbnail
             />

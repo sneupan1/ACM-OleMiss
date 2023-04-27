@@ -9,6 +9,8 @@ import { removeParticipant } from "../../redux/event/event.actions";
 import "./audience-card.styles.scss";
 
 const AudienceCard = ({ participant, history, removeParticipant, eventId }) => {
+  const API_URL = process.env.REACT_APP_API_URL || "";
+
   return (
     <div className="audienceCardContainer">
       <div className="audienceComponent">
@@ -20,7 +22,7 @@ const AudienceCard = ({ participant, history, removeParticipant, eventId }) => {
             {participant.profile.avatar ? (
               <Image
                 className="dp-img"
-                src={`/api/profile/${participant.profile._id}/avatar`}
+                src={`${API_URL}/api/profile/${participant.profile._id}/avatar`}
                 roundedCircle
               />
             ) : (
