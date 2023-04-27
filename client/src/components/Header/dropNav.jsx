@@ -1,9 +1,16 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { logoutUser } from "../../redux/user/user.actions";
 
 const DropNav = ({ logoutUser, role, open }) => {
+  var history = useHistory();
+
+  const handleLogout = async () => {
+    await logoutUser();
+    history.push("/");
+  };
+  
   const userLinks = () => (
     <Fragment>
       <div className="header-item">
@@ -16,9 +23,7 @@ const DropNav = ({ logoutUser, role, open }) => {
         <Link to="/members">Members</Link>
       </div>
       <div className="header-item">
-        <a href="/" onClick={() => logoutUser()}>
-          Logout
-        </a>
+        <span onClick={handleLogout}>Logout</span>
       </div>
     </Fragment>
   );
@@ -52,9 +57,7 @@ const DropNav = ({ logoutUser, role, open }) => {
         <Link to="/applications">Applications</Link>
       </div>
       <div className="header-item">
-        <a href="/" onClick={() => logoutUser()}>
-          Logout
-        </a>
+        <span onClick={handleLogout}>Logout</span>
       </div>
     </Fragment>
   );

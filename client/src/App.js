@@ -70,6 +70,7 @@ function App({ token, loadUser }) {
 
 const mapStateToProps = (state) => ({
   token: state.user.token,
+  state: state,
 });
 
 export default connect(mapStateToProps, { loadUser, getCurrentProfile })(App);
