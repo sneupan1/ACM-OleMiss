@@ -37,7 +37,7 @@ function UploadModal({
     handleSubmit(formData, history, id);
   };
   return (
-    <Fragment>
+    <>
       <Modal
         show={showModal}
         onHide={handleClose}
@@ -68,7 +68,7 @@ function UploadModal({
           </Button>
         </Modal.Footer>
       </Modal>
-    </Fragment>
+    </>
   );
 }
 

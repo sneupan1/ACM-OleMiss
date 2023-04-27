@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Profile = require("../models/profile");
+const OfficerApplication = require("../models/officerApplication");
 const User = require("../models/user");
 const auth = require("../middleware/auth");
 const officerAuth = require("../middleware/officerAuth");
@@ -22,8 +23,8 @@ router.get("/me", auth, async (req, res) => {
   }
 });
 
-//  @route      POST api/profile/all
-//  @desc       Register basic user profile
+//  @route      GET api/profile/all
+//  @desc       Get all member lists
 //  @access     Private
 router.get("/all", auth, async (req, res) => {
   try {
@@ -64,7 +65,8 @@ router.patch("/me", auth, async (req, res) => {
 router.delete("/me", auth, async (req, res) => {
   try {
     await Profile.deleteOne({ user: req.user._id });
-    await req.user.delete();
+    await OfficerApplication.deleteOne({ user: req.user._id });
+    await User.deleteOne({ _id: req.user._id });
     res.send([{ message: "Account Removed Successfully" }]);
   } catch (err) {
     res.status(500).send(err.message);
@@ -101,8 +103,9 @@ router.delete("/:id", officerAuth, async (req, res) => {
         },
       ]);
     }
+    await OfficerApplication.deleteOne({ user: profile.user._id });
     await User.deleteOne({ _id: profile.user._id });
-    await profile.delete();
+    await Profile.deleteOne({ _id: profile._id});
     res.send([{ message: "Account Removed Successfully" }]);
   } catch (err) {
     res.status(500).send(err.message);

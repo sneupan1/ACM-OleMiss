@@ -72,7 +72,7 @@ router.patch("/officer/application/:id", adminAuth, async (req, res) => {
     const user = await User.findOne({ _id: application.user });
     user.role = "officer";
     await user.save();
-    await application.delete();
+    await OfficerApplication.deleteOne({ _id: application._id });
     res.send(user);
   } catch (err) {
     res.status(500).send(err.message);
@@ -90,7 +90,7 @@ router.delete("/officer/application/:id", adminAuth, async (req, res) => {
     if (!application) {
       return res.status(404).send([{ message: "Application not found" }]);
     }
-    await application.delete();
+    await OfficerApplication.deleteOne({ _id: application._id });
     res.send(application);
   } catch (err) {
     res.status(500).send(err.message);

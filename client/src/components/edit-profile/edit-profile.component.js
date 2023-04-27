@@ -17,13 +17,8 @@ const EditProfile = ({ passItem: profile, history, updateProfile }) => {
     githubusername: profile.githubusername,
   });
 
-  const {
-    classification,
-    graduationDate,
-    major,
-    bio,
-    githubusername,
-  } = profileForm;
+  const { classification, graduationDate, major, bio, githubusername } =
+    profileForm;
 
   const handleChange = (event) => {
     setProfileForm({
@@ -31,9 +26,6 @@ const EditProfile = ({ passItem: profile, history, updateProfile }) => {
       [event.target.name]: event.target.value,
     });
   };
-
-  const isFutureDate = (date) =>
-    date.diff(moment(new Date())) > 0 ? true : false;
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -62,11 +54,7 @@ const EditProfile = ({ passItem: profile, history, updateProfile }) => {
           <FormInput
             type="date"
             name="graduationDate"
-            value={
-              isFutureDate(moment(graduationDate))
-                ? moment(graduationDate).format("YYYY-MM-DD")
-                : moment("").format("YYYY-MM-DD")
-            }
+            value={moment(graduationDate).format("YYYY-MM-DD")}
             handleChange={handleChange}
             label="Graduation Date"
           />

@@ -5,7 +5,7 @@ const path = require("path");
 const cors = require("cors");
 require("./db/mongoose"); //connect mongoDB
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 app.use(express.json());
 app.use(cors());
 app.use("/api/user", require("./router/user"));
