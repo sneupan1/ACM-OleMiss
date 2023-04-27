@@ -10,7 +10,7 @@ const {
   LOGIN_SUCCESS,
 } = UserActionTypes;
 
-const API_URL = process.env.API_URL || "";
+const API_URL = process.env.REACT_APP_API_URL || "";
 
 //Register User
 export const signupUser = (name, email, password) => async (dispatch) => {
