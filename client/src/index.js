@@ -12,10 +12,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 
 const root = createRoot(document.getElementById("root"));
-const CLIENT_BASE_URL = process.env.REACT_APP_CLIENT_BASE_URL || "";
+
 root.render(
   <Provider store={store}>
-    <BrowserRouter basename={CLIENT_BASE_URL}>
+    <BrowserRouter>
       <PersistGate persistor={persistor}>
         <App />
       </PersistGate>
